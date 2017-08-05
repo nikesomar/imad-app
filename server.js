@@ -4,8 +4,8 @@ var path = require('path');
 
 var app = express();
 app.use(morgan('combined'));
-
-var articleOne={
+var articles={
+ 'article-one':{
   title:'ART 1|Nikhil omar',
   heading:'Article One',
   pc:'Lenovo flex 2',
@@ -20,7 +20,34 @@ var articleOne={
                     another content for first article
                 </p>`
                     
-    };
+    },
+ 'article-two':{title:'ART 2|Nikhil omar',
+  heading:'Article Two',
+  pc:'Lenovo flex 2',
+  content:`
+                <p>
+                    the content for Second article
+                </p>
+                <p>
+                    This is also a content for Second article
+                </p>
+                <p>
+                    another content for Second article
+                </p>`},
+ 'article-three':{title:'ART 3|Nikhil omar',
+  heading:'Article Three',
+  pc:'Lenovo flex 2',
+  content:`
+                <p>
+                    the content for third article
+                </p>
+                <p>
+                    This is also a content for third article
+                </p>
+                <p>
+                    another content for third article
+                </p>`}
+};
 
 function createtemp(data){
         var title=data.title;
@@ -69,16 +96,9 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-app.get('/article-one', function (req,res) {
-    res.send(createtemp(articleOne));
-});
-
-app.get('/article-two', function (req,res) {
-    res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
-});
-
-app.get('/article-three', function (req,res) {
-    res.sendFile(path.join(__dirname, 'ui', 'article-three.html'));
+app.get('/:articlename', function (req,res) {
+    var articlename=req.params.articlename;
+    res.send(createtemp(articles[articlename]));
 });
 
 app.get('/ui/style.css', function (req, res) {
